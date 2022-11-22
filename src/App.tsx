@@ -15,12 +15,11 @@ export default function App() {
   let queries = ["tech", "neon", "cyber"];
 
     const [formData, setFormData] = useState({
-      first: "First",
-      last: "Last",
-      title: "Full Stack Web Developer",
+      name: "John Doe",
+      title: "Web Developer",
       email: "email@gmail.com",
       phone: "+555-555-5555",
-      site: "",
+      site: "www.personalsite.com",
 
       width: 1075,
       height: 275,
@@ -29,12 +28,12 @@ export default function App() {
       displayInfo: true,
 
       font: "Noto Sans HK",
-      clrAccent: "#444444",
-      clrBg: "#000000",
+      clrAccent: "#00A0DC",
+      clrBg: "#000000d9",
       clrFont: "#ffffff",
     });
 
-    const fontFamilies = ['Inconsolata', 'Noto Sans HK', 'Merriweather', 'Lobster', 'Old Standard TT', 'Sora', 'Lato', 'Montserrat'];
+    const fontFamilies = ['Arial', 'Calibri', 'Inconsolata', 'Noto Sans HK', 'Merriweather', 'Lobster', 'Old Standard TT', 'Sora', 'Lato', 'Montserrat', 'Courier'];
     function handleChange(event: any) {
       const { name, value, type, checked } = event.target;
       setFormData((prevFormData) => {
@@ -48,7 +47,6 @@ export default function App() {
     function handleSubmit(event: any) {
       event.preventDefault();
       // submitToApi(formData)
-      console.log(formData);
     }
 
 
@@ -104,6 +102,10 @@ export default function App() {
    });
  }
 
+ function updateColor(color: string) {
+   
+ }
+
  
   return (
     <div className="App">
@@ -118,14 +120,25 @@ export default function App() {
 
           <div className="cover-border">
             {formData.displayInfo ? (
-              <div className="info-frame">
-                <h4 className="name first-name">{formData.first}</h4>
-                <h4 className="name last-name">{formData.last}</h4>
-                <div className="divider"></div>
+              <div
+                className="info-frame"
+                style={{
+                  color: formData.clrFont,
+                  backgroundColor: formData.clrBg,
+                  fontFamily: formData.font,
+                }}
+              >
+                <h4 className="name">{formData.name}</h4>
+                <div
+                  className="divider"
+                  style={{
+                    backgroundColor: formData.clrAccent,
+                  }}
+                ></div>
                 <h5 className="job-title">{formData.title}</h5>
                 <h5 className="email">{formData.email}</h5>
                 <h5 className="phone">{formData.phone}</h5>
-                <h5 className="phone">{formData.site}</h5>
+                <h5 className="site">{formData.site}</h5>
               </div>
             ) : (
               <></>
@@ -137,6 +150,7 @@ export default function App() {
       )}
       <form onSubmit={handleSubmit} className="controls">
         <div className="img-form">
+          <p className="control-header">File</p>
           <div className="form-row">
             <p className="form-label">Import Image</p>
             <input
@@ -179,26 +193,16 @@ export default function App() {
         </div>
 
         <div className="info-form">
+          <p className="control-header">Info</p>
           <div className="form-row">
-            <p className="form-label">First Name</p>
+            <p className="form-label">Name</p>
             <input
               className="form-input"
               type="text"
-              placeholder="First Name"
+              placeholder="Name"
               onChange={handleChange}
-              name="first"
-              value={formData.first}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Last Name</p>
-            <input
-              className="form-input"
-              type="text"
-              placeholder="Last Name"
-              onChange={handleChange}
-              name="last"
-              value={formData.last}
+              name="name"
+              value={formData.name}
             />
           </div>
           <div className="form-row">
@@ -245,10 +249,10 @@ export default function App() {
               value={formData.site}
             />
           </div>
-          <button className="form-btn">Submit</button>
         </div>
 
         <div className="img-form">
+          <p className="control-header">Generate</p>
           <div className="form-row">
             <p className="form-label">Category</p>
             <input
@@ -288,6 +292,7 @@ export default function App() {
         </div>
 
         <div className="style-form">
+          <p className="control-header">Styling</p>
           <div className="form-row">
             <p className="form-label">Font Family</p>
 
@@ -309,6 +314,13 @@ export default function App() {
           <div className="form-row">
             <p className="form-label">Accent</p>
             <input
+              name="clrAccent"
+              type="color"
+              className="color-picker"
+              onChange={handleChange}
+              value={formData.clrAccent}
+            />
+            <input
               className="form-input"
               type="text"
               onChange={handleChange}
@@ -318,7 +330,14 @@ export default function App() {
           </div>
 
           <div className="form-row">
-            <p className="form-label">Font Color</p>
+            <p className="form-label">Font</p>
+            <input
+              name="clrFont"
+              type="color"
+              className="color-picker"
+              onChange={handleChange}
+              value={formData.clrFont}
+            />
             <input
               className="form-input"
               type="text"
@@ -328,7 +347,14 @@ export default function App() {
             />
           </div>
           <div className="form-row">
-            <p className="form-label">Background Color</p>
+            <p className="form-label">Background</p>
+            <input
+              name="clrBg"
+              type="color"
+              className="color-picker"
+              onChange={handleChange}
+              value={formData.clrBg}
+            />
             <input
               className="form-input"
               type="text"

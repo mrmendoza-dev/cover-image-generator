@@ -29,7 +29,7 @@
     --li-cover-height: 275px;
     /* --li-aspect-ratio: 1.91 / 1; */
 
-    --cover-height: 400px;
+    --cover-height: 275px;
 
 
 }
@@ -105,6 +105,8 @@ button {
     position: relative;
     margin: 0 auto;
     margin-top: 2em;
+      background-size: cover;
+
 }
 .cover-border {
     box-sizing: border-box;
@@ -147,6 +149,7 @@ button {
     /* align-items: center; */
     gap: 2em;
     margin-top: 2em;
+    flex-wrap: wrap;
 }
 
 .img-form {
@@ -160,6 +163,12 @@ button {
 
 }
 
+.control-header {
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: .6em;
+}
 
 
 
@@ -168,56 +177,64 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-sizing: border-box;
     height: var(--cover-height);
+    
     position: absolute;
     bottom: 0;
     top:0;
     right: 0;
+    min-width: 350px;
+    max-width: 450px;
     width: 22vw;
     background-color: var(--clr-frame-bg);
     color: var(--clr-frame-font);
-    color: white;
     text-align: center;
-    font-family: var(--elegant-font);
 }
 
 
-.first-name , .last-name {
+.name {
     text-transform: uppercase;
-    letter-spacing: 0.15vw;
+    letter-spacing: 2px;
     /* Change this font-size if your name needs more space*/
-    font-size: 2.8vw;
+    font-size: 2.8rem;
+        margin: 0;
+
 }
 
-
-.first-name {
-    margin: 0;
-}
-
-.last-name {
-    margin: 0vw 0 0;
-}
 
 .job-title {
     text-transform: uppercase;
-    margin: 0vw 0 2vw;
-    font-size: 1.2vw;
+    font-size: 1.2rem;
     font-weight: 100;
-    letter-spacing: 0.05vw;
+    letter-spacing: 2px;
 }
 
-.email, .phone {
-    font-size: 1.1vw;
+.email, .phone, .site {
+    font-size: 1.1rem;
     opacity: 0.85;
-    margin: 0.3vw 0;
-    letter-spacing: 0.02vw;
+    letter-spacing: .8px;
+}
+.email {
+    font-size: .9rem;
+}
+.phone {
+    font-size: .9rem;
+        margin-bottom: 3em;
+
+}
+.site {
+    position: absolute;
+    font-size: .9rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 1.8em;
 }
 
 .divider {
-    height: 0.2vw;
+    height: 3px;
     width: 60%;
-    margin: 1.2vw auto 1.5vw;
+    margin: .6em auto;
     background-color: var(--clr-accent);
 }
 
