@@ -20,9 +20,11 @@
 .form-select {
   border-radius: 10px;
   box-shadow: 3px 3px 3px var(--clr-shadow);
-  border: 1px solid #bbb;
+  border: 1px solid var(--clr-shadow);
   outline: none;
   padding: 0.3em 0.8em;
+  background-color: var(--clr-dark);
+  color: var(--clr-font);
 }
 
 .form-input {
@@ -61,7 +63,7 @@
 
 .form-btn {
   font-size: 1.2rem;
-  border-radius: 20px;
+  border-radius: 15px;
   box-shadow: 3px 3px 3px var(--clr-shadow);
   border: 1px solid var(--clr-shadow);
   outline: none;
@@ -100,4 +102,9 @@
     border-bottom: 0;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+input::file-selector-button {
+  background-color: inherit;
+  color: inherit;
 }

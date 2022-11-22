@@ -11,7 +11,10 @@
 
     --font: var(--neat-font);
     --clr-font: #ffffff;
-    --clr-bg: #575757;
+    --clr-bg: #2c324f;
+    --clr-dark: #1c1f2b;
+    --clr-shadow: #2c324f;
+
 
     --clr-accent: #00A0DC;
     --clr-frame-font: #ffffff;
@@ -63,10 +66,15 @@ button {
     margin: 0 auto;
     background-color: var(--clr-bg);
     color: var(--clr-font);
-    padding: 1em 2em;
+    padding: 2em 4em;
+    height: 100vh;
 }
 
+.app-title {
+    font-size: 3rem;
+    text-align: center;
 
+}
 
 .caption {
     display: none;
@@ -92,13 +100,11 @@ button {
 
 
 
-.generator {
-    margin: 0 auto;
-}
 
 .cover-container {
     position: relative;
     margin: 0 auto;
+    margin-top: 2em;
 }
 .cover-border {
     box-sizing: border-box;
@@ -121,6 +127,7 @@ button {
     background-color: black;
     position: relative;
     z-index: 10;
+    object-fit: cover;
 }
 
 .img-wrapper > img {
@@ -139,7 +146,7 @@ button {
     /* flex-direction: column; */
     /* align-items: center; */
     gap: 2em;
-    margin-top: 1.4em;
+    margin-top: 2em;
 }
 
 .img-form {

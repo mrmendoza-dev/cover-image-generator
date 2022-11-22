@@ -3,6 +3,7 @@ import './App.css'
 import "./Form.css";
 import html2canvas from "html2canvas";
 // const html2canvas = require("html2canvas");
+import {nanoid} from "nanoid";
 
 export default function App() {
   let [photo, setPhoto] = useState<{ id: any; urls: any; user: any }>({
@@ -10,14 +11,7 @@ export default function App() {
     urls: "",
     user: "",
   });
-  let [bio, setBio] = useState({
-    first: "First",
-    last: "Last",
-    title: "Full Stack Web Developer",
-    email: "email@gmail.com",
-    phone: "+555-555-5555",
-    site: "",
-  });
+
   let queries = ["tech", "neon", "cyber"];
 
     const [formData, setFormData] = useState({
@@ -28,10 +22,19 @@ export default function App() {
       phone: "+555-555-5555",
       site: "",
 
-      query: "tech",
+      width: 1075,
+      height: 275,
+      query: "cyber",
       fileType: "png",
+      displayInfo: true,
+
+      font: "Noto Sans HK",
+      clrAccent: "#444444",
+      clrBg: "#000000",
+      clrFont: "#ffffff",
     });
 
+    const fontFamilies = ['Inconsolata', 'Noto Sans HK', 'Merriweather', 'Lobster', 'Old Standard TT', 'Sora', 'Lato', 'Montserrat'];
     function handleChange(event: any) {
       const { name, value, type, checked } = event.target;
       setFormData((prevFormData) => {
@@ -104,6 +107,7 @@ export default function App() {
  
   return (
     <div className="App">
+      <h1 className="app-title"> Cover Image Generator</h1>
       {formData.query && photo.id ? (
         <div key={photo.id} className="cover-container" id="capture">
           {/* <a href={photo.user.links.html} target="_blank"> */}
@@ -113,14 +117,19 @@ export default function App() {
           {/* </a> */}
 
           <div className="cover-border">
-            <div className="info-frame">
-              <h4 className="name first-name">{formData.first}</h4>
-              <h4 className="name last-name">{formData.last}</h4>
-              <div className="divider"></div>
-              <h5 className="job-title">{formData.title}</h5>
-              <h5 className="email">{formData.email}</h5>
-              <h5 className="phone">{formData.phone}</h5>
-            </div>
+            {formData.displayInfo ? (
+              <div className="info-frame">
+                <h4 className="name first-name">{formData.first}</h4>
+                <h4 className="name last-name">{formData.last}</h4>
+                <div className="divider"></div>
+                <h5 className="job-title">{formData.title}</h5>
+                <h5 className="email">{formData.email}</h5>
+                <h5 className="phone">{formData.phone}</h5>
+                <h5 className="phone">{formData.site}</h5>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       ) : (
@@ -141,20 +150,35 @@ export default function App() {
             />
           </div>
           <div className="form-row">
-            <p className="form-label">File Type</p>
+            <p className="form-label">Display Info</p>
             <input
-              className="form-input"
-              type="email"
-              // placeholder="Website"
+              className="form-checkbox"
+              type="checkbox"
+              checked={formData.displayInfo}
               onChange={handleChange}
-              name="email"
-              // value={formData.site}
+              name="displayInfo"
             />
           </div>
-          <button className="form-btn" onClick={saveImg}>Download</button>
+          <div className="form-row">
+            <p className="form-label">File Type</p>
+
+            <select
+              className="form-select"
+              onChange={handleChange}
+              name="fileType"
+              value={formData.fileType}
+            >
+              <option value="png">.png</option>
+              <option value="jpg">.jpg</option>
+              <option value="webp">.webp</option>
+            </select>
+          </div>
+          <button className="form-btn" onClick={saveImg}>
+            Download
+          </button>
         </div>
 
-        <div className="img-form">
+        <div className="info-form">
           <div className="form-row">
             <p className="form-label">First Name</p>
             <input
@@ -217,7 +241,7 @@ export default function App() {
               type="text"
               placeholder="Website"
               onChange={handleChange}
-              name="email"
+              name="site"
               value={formData.site}
             />
           </div>
@@ -243,8 +267,8 @@ export default function App() {
               type="number"
               // placeholder="First Name"
               onChange={handleChange}
-              name="firstName"
-              value={formData.first}
+              name="width"
+              value={formData.width}
             />
           </div>
           <div className="form-row">
@@ -254,8 +278,8 @@ export default function App() {
               type="number"
               // placeholder="First Name"
               onChange={handleChange}
-              name="firstName"
-              value={formData.first}
+              name="height"
+              value={formData.height}
             />
           </div>
           <button className="form-btn" onClick={generatePhoto}>
@@ -266,24 +290,30 @@ export default function App() {
         <div className="style-form">
           <div className="form-row">
             <p className="form-label">Font Family</p>
-            <input
-              className="form-input"
-              type="text"
-              placeholder="First Name"
+
+            <select
+              className="form-select"
               onChange={handleChange}
-              name="firstName"
-              value={formData.first}
-            />
+              name="font"
+              value={formData.font}
+            >
+              {fontFamilies.map((font: any) => {
+                return (
+                  <option key={nanoid()} value={font}>
+                    {font}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className="form-row">
             <p className="form-label">Accent</p>
             <input
               className="form-input"
               type="text"
-              placeholder="First Name"
               onChange={handleChange}
-              name="firstName"
-              value={formData.first}
+              name="clrAccent"
+              value={formData.clrAccent}
             />
           </div>
 
@@ -292,10 +322,9 @@ export default function App() {
             <input
               className="form-input"
               type="text"
-              placeholder="First Name"
               onChange={handleChange}
-              name="firstName"
-              value={formData.first}
+              name="clrFont"
+              value={formData.clrFont}
             />
           </div>
           <div className="form-row">
@@ -303,10 +332,9 @@ export default function App() {
             <input
               className="form-input"
               type="text"
-              placeholder="First Name"
               onChange={handleChange}
-              name="firstName"
-              value={formData.first}
+              name="clrBg"
+              value={formData.clrBg}
             />
           </div>
         </div>
