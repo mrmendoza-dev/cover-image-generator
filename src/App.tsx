@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import "./Form.css";
 import html2canvas from "html2canvas";
-// const html2canvas = require("html2canvas");
 import {nanoid} from "nanoid";
+import Footer from "./components/Nav/Footer"
+import Nav from "./components/Nav/Nav";
+import logo from "./logo.png";
 
 export default function App() {
   let [photo, setPhoto] = useState<{ id: any; urls: any; user: any }>({
@@ -12,7 +14,10 @@ export default function App() {
     user: "",
   });
 
-  let queries = ["tech", "neon", "cyber"];
+  let queries = ["tech", "neon", "cyber", "city"];
+  function randomQuery(list:[]  ) {
+    return Math.floor(Math.random() * (list.length));
+  }
 
     const [formData, setFormData] = useState({
       name: "John Doe",
@@ -33,7 +38,7 @@ export default function App() {
       clrFont: "#ffffff",
     });
 
-    const fontFamilies = ['Arial', 'Calibri', 'Inconsolata', 'Noto Sans HK', 'Merriweather', 'Lobster', 'Old Standard TT', 'Sora', 'Lato', 'Montserrat', 'Courier'];
+    const fontFamilies = ['Arial', 'Calibri', 'Inconsolata', 'Noto Sans HK', 'Merriweather', 'Lobster', 'Sora', 'Lato', 'Montserrat'];
     function handleChange(event: any) {
       const { name, value, type, checked } = event.target;
       setFormData((prevFormData) => {
@@ -55,6 +60,7 @@ export default function App() {
     "https://apis.scrimba.com/unsplash/photos/random/?orientation=landscape";
 
   useEffect(() => {
+    
     generatePhoto();
   }, [url]);
 
@@ -82,9 +88,7 @@ export default function App() {
       });
   }
 
-  // html2canvas(document.querySelector("#capture")).then((canvas) => {
-  //   document.body.appendChild(canvas);
-  // });
+
 
 
  function saveImg() {
@@ -106,265 +110,297 @@ export default function App() {
    
  }
 
+
+
+
  
   return (
     <div className="App">
-      <h1 className="app-title"> Cover Image Generator</h1>
-      {formData.query && photo.id ? (
-        <div key={photo.id} className="cover-container" id="capture">
-          {/* <a href={photo.user.links.html} target="_blank"> */}
-          <div className="img-wrapper">
-            <img className="img" src={photo.urls.regular} />
-          </div>
-          {/* </a> */}
+      {/* <Nav /> */}
+      <div className="title-banner">
+        <h1 className="app-title"> Cover Image Generator</h1>
+      </div>
 
-          <div className="cover-border">
-            {formData.displayInfo ? (
-              <div
-                className="info-frame"
-                style={{
-                  color: formData.clrFont,
-                  backgroundColor: formData.clrBg,
-                  fontFamily: formData.font,
-                }}
-              >
-                <h4 className="name">{formData.name}</h4>
-                <div
-                  className="divider"
-                  style={{
-                    backgroundColor: formData.clrAccent,
-                  }}
-                ></div>
-                <h5 className="job-title">{formData.title}</h5>
-                <h5 className="email">{formData.email}</h5>
-                <h5 className="phone">{formData.phone}</h5>
-                <h5 className="site">{formData.site}</h5>
+      <div className="content-wrapper">
+        <div className="cover-container" id="capture">
+          {formData.query && photo.id ? (
+            <div>
+              {/* <a href={photo.user.links.html} target="_blank"> */}
+              <div className="img-wrapper">
+                <img className="img" src={photo.urls.regular} />
               </div>
-            ) : (
-              <></>
-            )}
-          </div>
+              {/* </a> */}
+
+              <div className="cover-border">
+                {formData.displayInfo ? (
+                  <div
+                    className="info-frame"
+                    style={{
+                      color: formData.clrFont,
+                      backgroundColor: formData.clrBg,
+                      fontFamily: formData.font,
+                    }}
+                  >
+                    <h4 className="name">{formData.name}</h4>
+                    <div
+                      className="divider"
+                      style={{
+                        backgroundColor: formData.clrAccent,
+                      }}
+                    ></div>
+                    <h5 className="job-title">{formData.title}</h5>
+                    <h5 className="email">{formData.email}</h5>
+                    <h5 className="phone">{formData.phone}</h5>
+                    <h5 className="site">{formData.site}</h5>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
-      ) : (
-        <></>
-      )}
-      <form onSubmit={handleSubmit} className="controls">
-        <div className="img-form">
-          <p className="control-header">File</p>
-          <div className="form-row">
-            <p className="form-label">Import Image</p>
-            <input
-              className="form-input"
-              type="file"
-              accept="image/png, image/jpeg"
-              // placeholder="Website"
-              onChange={handleChange}
-              // name="site"
-              // value={formData.site}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Display Info</p>
-            <input
-              className="form-checkbox"
-              type="checkbox"
-              checked={formData.displayInfo}
-              onChange={handleChange}
-              name="displayInfo"
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">File Type</p>
+        <div className="controls-banner">
+          <form onSubmit={handleSubmit} className="controls">
+            <div className="img-form">
+              <p className="control-header">File</p>
+              <div className="form-row">
+                <p className="form-label">Import Image</p>
+                <input
+                  className="form-input"
+                  type="file"
+                  accept="image/png, image/jpeg"
+                  // placeholder="Website"
+                  onChange={handleChange}
+                  // name="site"
+                  // value={formData.site}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Display Info</p>
+                <input
+                  className="form-checkbox"
+                  type="checkbox"
+                  checked={formData.displayInfo}
+                  onChange={handleChange}
+                  name="displayInfo"
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">File Type</p>
 
-            <select
-              className="form-select"
-              onChange={handleChange}
-              name="fileType"
-              value={formData.fileType}
-            >
-              <option value="png">.png</option>
-              <option value="jpg">.jpg</option>
-              <option value="webp">.webp</option>
-            </select>
-          </div>
-          <button className="form-btn" onClick={saveImg}>
-            Download
-          </button>
+                <select
+                  className="form-select"
+                  onChange={handleChange}
+                  name="fileType"
+                  value={formData.fileType}
+                >
+                  <option value="png">.png</option>
+                  <option value="jpg">.jpg</option>
+                  <option value="webp">.webp</option>
+                </select>
+              </div>
+              <div className="caption">
+                {formData.query && photo.id ? (
+                  <p className="credits">
+                    Photo by
+                    <a href={photo.user.links.html}> {photo.user.name}</a>
+                    <span> on </span>
+                    <a href={"https://unsplash.com"}>Unsplash</a>
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </div>
+              <div className="btn-wrapper">
+                <button className="form-btn" onClick={saveImg}>
+                  Download
+                </button>
+              </div>
+            </div>
+
+            <div className="info-form">
+              <p className="control-header">Info</p>
+              <div className="form-row">
+                <p className="form-label">Name</p>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Name"
+                  onChange={handleChange}
+                  name="name"
+                  value={formData.name}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Title</p>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Title"
+                  onChange={handleChange}
+                  name="title"
+                  value={formData.title}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Phone</p>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Phone"
+                  onChange={handleChange}
+                  name="phone"
+                  value={formData.phone}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Email</p>
+                <input
+                  className="form-input"
+                  type="email"
+                  placeholder="Email"
+                  onChange={handleChange}
+                  name="email"
+                  value={formData.email}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Website</p>
+                <input
+                  className="form-input"
+                  type="text"
+                  placeholder="Website"
+                  onChange={handleChange}
+                  name="site"
+                  value={formData.site}
+                />
+              </div>
+            </div>
+
+            <div className="img-form">
+              <p className="control-header">Generate</p>
+              <div className="form-row">
+                <p className="form-label">Category</p>
+                <input
+                  className="form-input"
+                  type="text"
+                  // placeholder=""
+                  onChange={handleChange}
+                  name="query"
+                  value={formData.query}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Width</p>
+                <input
+                  className="form-input"
+                  type="number"
+                  // placeholder="First Name"
+                  onChange={handleChange}
+                  name="width"
+                  value={formData.width}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Height</p>
+                <input
+                  className="form-input"
+                  type="number"
+                  // placeholder="First Name"
+                  onChange={handleChange}
+                  name="height"
+                  value={formData.height}
+                />
+              </div>
+
+              <div className="btn-wrapper">
+                <button className="form-btn" onClick={generatePhoto}>
+                  Generate
+                </button>
+              </div>
+            </div>
+
+            <div className="style-form">
+              <p className="control-header">Styling</p>
+              <div className="form-row">
+                <p className="form-label">Font Family</p>
+
+                <select
+                  className="form-select"
+                  onChange={handleChange}
+                  name="font"
+                  value={formData.font}
+                >
+                  {fontFamilies.map((font: any) => {
+                    return (
+                      <option key={nanoid()} value={font}>
+                        {font}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className="form-row">
+                <p className="form-label">Accent</p>
+                <input
+                  name="clrAccent"
+                  type="color"
+                  className="color-picker"
+                  onChange={handleChange}
+                  value={formData.clrAccent}
+                />
+                <input
+                  className="form-input"
+                  type="text"
+                  onChange={handleChange}
+                  name="clrAccent"
+                  value={formData.clrAccent}
+                />
+              </div>
+
+              <div className="form-row">
+                <p className="form-label">Font</p>
+                <input
+                  name="clrFont"
+                  type="color"
+                  className="color-picker"
+                  onChange={handleChange}
+                  value={formData.clrFont}
+                />
+                <input
+                  className="form-input"
+                  type="text"
+                  onChange={handleChange}
+                  name="clrFont"
+                  value={formData.clrFont}
+                />
+              </div>
+              <div className="form-row">
+                <p className="form-label">Background</p>
+                <input
+                  name="clrBg"
+                  type="color"
+                  className="color-picker"
+                  onChange={handleChange}
+                  value={formData.clrBg}
+                />
+                <input
+                  className="form-input"
+                  type="text"
+                  onChange={handleChange}
+                  name="clrBg"
+                  value={formData.clrBg}
+                />
+              </div>
+            </div>
+          </form>
         </div>
+      </div>
 
-        <div className="info-form">
-          <p className="control-header">Info</p>
-          <div className="form-row">
-            <p className="form-label">Name</p>
-            <input
-              className="form-input"
-              type="text"
-              placeholder="Name"
-              onChange={handleChange}
-              name="name"
-              value={formData.name}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Title</p>
-            <input
-              className="form-input"
-              type="text"
-              placeholder="Title"
-              onChange={handleChange}
-              name="title"
-              value={formData.title}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Phone</p>
-            <input
-              className="form-input"
-              type="text"
-              placeholder="Phone"
-              onChange={handleChange}
-              name="phone"
-              value={formData.phone}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Email</p>
-            <input
-              className="form-input"
-              type="email"
-              placeholder="Email"
-              onChange={handleChange}
-              name="email"
-              value={formData.email}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Website</p>
-            <input
-              className="form-input"
-              type="text"
-              placeholder="Website"
-              onChange={handleChange}
-              name="site"
-              value={formData.site}
-            />
-          </div>
-        </div>
-
-        <div className="img-form">
-          <p className="control-header">Generate</p>
-          <div className="form-row">
-            <p className="form-label">Category</p>
-            <input
-              className="form-input"
-              type="text"
-              // placeholder=""
-              onChange={handleChange}
-              name="query"
-              value={formData.query}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Width</p>
-            <input
-              className="form-input"
-              type="number"
-              // placeholder="First Name"
-              onChange={handleChange}
-              name="width"
-              value={formData.width}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Height</p>
-            <input
-              className="form-input"
-              type="number"
-              // placeholder="First Name"
-              onChange={handleChange}
-              name="height"
-              value={formData.height}
-            />
-          </div>
-          <button className="form-btn" onClick={generatePhoto}>
-            Generate
-          </button>
-        </div>
-
-        <div className="style-form">
-          <p className="control-header">Styling</p>
-          <div className="form-row">
-            <p className="form-label">Font Family</p>
-
-            <select
-              className="form-select"
-              onChange={handleChange}
-              name="font"
-              value={formData.font}
-            >
-              {fontFamilies.map((font: any) => {
-                return (
-                  <option key={nanoid()} value={font}>
-                    {font}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="form-row">
-            <p className="form-label">Accent</p>
-            <input
-              name="clrAccent"
-              type="color"
-              className="color-picker"
-              onChange={handleChange}
-              value={formData.clrAccent}
-            />
-            <input
-              className="form-input"
-              type="text"
-              onChange={handleChange}
-              name="clrAccent"
-              value={formData.clrAccent}
-            />
-          </div>
-
-          <div className="form-row">
-            <p className="form-label">Font</p>
-            <input
-              name="clrFont"
-              type="color"
-              className="color-picker"
-              onChange={handleChange}
-              value={formData.clrFont}
-            />
-            <input
-              className="form-input"
-              type="text"
-              onChange={handleChange}
-              name="clrFont"
-              value={formData.clrFont}
-            />
-          </div>
-          <div className="form-row">
-            <p className="form-label">Background</p>
-            <input
-              name="clrBg"
-              type="color"
-              className="color-picker"
-              onChange={handleChange}
-              value={formData.clrBg}
-            />
-            <input
-              className="form-input"
-              type="text"
-              onChange={handleChange}
-              name="clrBg"
-              value={formData.clrBg}
-            />
-          </div>
-        </div>
-      </form>
+      <Footer />
     </div>
   );
 }
@@ -373,11 +409,3 @@ export default function App() {
 
 
 
-            // <div className="caption">
-            //   <span className="credits">
-            //     Photo by
-            //     <a href={photo.user.links.html}> {photo.user.name}</a>
-            //     <span> on </span>
-            //     <a href={"https://unsplash.com"}>Unsplash</a>
-            //   </span>
-            // </div>;

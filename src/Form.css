@@ -73,9 +73,15 @@
   font-weight: 500;
   font-family: inherit;
 }
+
 .form-btn:hover {
 }
 
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: .8em;
+}
 
 
 .form-radios{
