@@ -72,9 +72,11 @@
   color: #fff;
   font-weight: 500;
   font-family: inherit;
+  transition: all 150ms;
 }
 
 .form-btn:hover {
+    opacity: .8;
 }
 
 .btn-wrapper {

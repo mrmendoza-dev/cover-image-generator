@@ -1,31 +1,21 @@
 :root {
-  /* FONTS */
-  --typewriter-font: "Inconsolata";
-  --simple-font: "Noto Sans HK";
-  --serious-font: "Merriweather";
-  --sweet-font: "Lobster";
-  --professional-font: "Old Standard TT";
-  --elegant-font: "Sora";
-  --neat-font: "Lato";
-  --urban-font: "Montserrat";
+    --font: "Lato";
+    --clr-font: #ffffff;
+    --clr-bg: #2c324f;
+    --clr-body-bg: #1f233b;
+    --clr-dark: #1c1f2b;
+    --clr-shadow: #2c324f;
+    --clr-hr: #333;
+    --clr-body-bg: #1f233b;
+    --clr-accent: #1e2135b9;
 
-  --font: var(--neat-font);
-  --clr-font: #ffffff;
-  --clr-bg: #2c324f;
-  --clr-dark: #1c1f2b;
-  --clr-shadow: #2c324f;
-  --clr-hr: #333;
-  --clr-accent: #1e2135b9;
-  --clr-frame-font: #ffffff;
-  --clr-frame-bg: #000000d9;
-  /* COLORS */
-  --main: #00a0dc;
+    --clr-frame-font: #ffffff;
+    --clr-frame-bg: #000000d9;
 
-  --li-cover-width: 1075px;
-  --li-cover-height: 275px;
-  /* --li-aspect-ratio: 1.91 / 1; */
-
-  --cover-height: 275px;
+    --li-cover-width: 1075px;
+    --li-cover-height: 275px;
+    /* --li-aspect-ratio: 1.91 / 1; */
+    --cover-height: 275px;
 }
 
 * {
@@ -35,7 +25,7 @@
 
 body {
   font-family: var(--font);
-  background-color: #1f233b;
+  background-color: var(--clr-body-bg);
   font-size: 16px;
 }
 
