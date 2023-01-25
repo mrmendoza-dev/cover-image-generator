@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
-import './App.css'
+import { useState, useEffect, useRef } from "react";
+import "./App.css";
 import "./Form.css";
 import html2canvas from "html2canvas";
-import {nanoid} from "nanoid";
-import Footer from "./components/Nav/Footer"
+import { nanoid } from "nanoid";
+import Footer from "./components/Nav/Footer";
 import Nav from "./components/Nav/Nav";
 import logo from "./logo.png";
 
@@ -15,67 +15,77 @@ export default function App() {
   });
 
   let queries = ["tech", "neon", "cyber", "city"];
-  function randomQuery(list:[]  ) {
-    return Math.floor(Math.random() * (list.length));
+  function randomQuery(list: []) {
+    return Math.floor(Math.random() * list.length);
   }
 
-    const [formData, setFormData] = useState({
-      name: "John Doe",
-      title: "Web Developer",
-      email: "email@gmail.com",
-      phone: "+555-555-5555",
-      site: "www.personalsite.com",
+  const [formData, setFormData] = useState({
+    name: "John Doe",
+    title: "Web Developer",
+    email: "email@gmail.com",
+    phone: "+555-555-5555",
+    site: "www.personalsite.com",
 
-      width: 1075,
-      height: 275,
-      query: "cyber",
-      fileType: "png",
-      displayInfo: true,
+    width: 1075,
+    height: 275,
+    query: "cyber",
+    fileType: "png",
+    displayInfo: true,
 
-      font: "Noto Sans HK",
-      clrAccent: "#00A0DC",
-      clrBg: "#000000d9",
-      clrFont: "#ffffff",
+    font: "Noto Sans HK",
+    clrAccent: "#00A0DC",
+    clrBg: "#000000d9",
+    clrFont: "#ffffff",
+  });
+
+  const fontFamilies = [
+    "Arial",
+    "Calibri",
+    "Inconsolata",
+    "Noto Sans HK",
+    "Merriweather",
+    "Lobster",
+    "Sora",
+    "Lato",
+    "Montserrat",
+  ];
+  function handleChange(event: any) {
+    const { name, value, type, checked } = event.target;
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [name]: type === "checkbox" ? checked : value,
+      };
     });
+  }
 
-    const fontFamilies = ['Arial', 'Calibri', 'Inconsolata', 'Noto Sans HK', 'Merriweather', 'Lobster', 'Sora', 'Lato', 'Montserrat'];
-    function handleChange(event: any) {
-      const { name, value, type, checked } = event.target;
-      setFormData((prevFormData) => {
-        return {
-          ...prevFormData,
-          [name]: type === "checkbox" ? checked : value,
-        };
-      });
-    }
-
-    function handleSubmit(event: any) {
-      event.preventDefault();
-      // submitToApi(formData)
-    }
-
+  function handleSubmit(event: any) {
+    event.preventDefault();
+    // submitToApi(formData)
+  }
 
   const queryInput: any = useRef(null);
   const url =
     "https://apis.scrimba.com/unsplash/photos/random/?orientation=landscape";
 
   useEffect(() => {
-    
     generatePhoto();
   }, [url]);
 
+  useEffect(() => {
+    setImage(photo.urls.regular);
+  }, [photo]);
+
   function generatePhoto() {
-    const photoUrl = formData.query ? `${url}&query=${formData.query.split(" ").join("+")}` : url;
+    const photoUrl = formData.query
+      ? `${url}&query=${formData.query.split(" ").join("+")}`
+      : url;
     loadData({
       url: photoUrl,
       onSuccess: (res: any) => {
         setPhoto(res);
       },
     });
-  }
-
-  function searchPhotos(e: any) {
-    e.preventDefault();
   }
 
   function loadData(options: any) {
@@ -88,32 +98,69 @@ export default function App() {
       });
   }
 
+  function saveImg(fileType: string) {
+    html2canvas(document.getElementById("capture") as HTMLCanvasElement, {
+      allowTaint: true,
+      useCORS: true,
+    }).then(function (canvas) {
+      let anchorTag = document.createElement("a");
+      document.body.appendChild(anchorTag);
 
+      if (fileType === "jpg") {
+        anchorTag.href = canvas.toDataURL("image/jpeg");
+      } else if (fileType === "png") {
+        anchorTag.href = canvas.toDataURL();
+      } else if (fileType === "webp") {
+        anchorTag.href = canvas.toDataURL("image/webp");
+      }
 
+      anchorTag.download = `cover-img.${fileType}`;
+      anchorTag.target = "_blank";
+      anchorTag.click();
+    });
+  }
 
- function saveImg() {
-   html2canvas(document.getElementById("capture") as HTMLCanvasElement, {
-     allowTaint: true,
-     useCORS: true,
-   }).then(function (canvas) {
-     var anchorTag = document.createElement("a");
-     document.body.appendChild(anchorTag);
-     //  document.getElementById("previewImg").appendChild(canvas);
-     anchorTag.download = `cover-img.${formData.fileType}`;
-     anchorTag.href = canvas.toDataURL();
-     anchorTag.target = "_blank";
-     anchorTag.click();
-   });
- }
+  function updateColor(color: string) {}
 
- function updateColor(color: string) {
-   
- }
+  function handleUpload(e: any) {
+    setImage(URL.createObjectURL(e.target.files[0]));
+    console.log("test");
+  }
 
+  const [image, setImage] = useState("");
+  const [width, setWidth] = useState(1200);
+  const [height, setHeight] = useState(275);
+  const [opacity, setOpacity] = useState(1);
 
+  const coverImageSizes = {
+    "Social Media": {
+      Facebook: { min: 400, max: 828 },
+      Twitter: { min: 440, max: 4096 },
+      LinkedIn: { min: 1536, max: 1536 },
+      Instagram: { min: 320, max: 1080 },
+    },
+    "E-commerce": {
+      Amazon: { min: 500, max: 2560 },
+      Etsy: { min: 500, max: 4000 },
+    },
+    "Online video platforms": {
+      YouTube: { min: 640, max: 3840 },
+      Vimeo: { min: 640, max: 4096 },
+    },
+    "Website banners": {
+      min: 800,
+      max: 1920,
+    },
+    "Email marketing": {
+      min: 600,
+      max: 600,
+    },
+    "Book Covers": {
+      Kindle: { min: 800, max: 2560 },
+      Print: { min: 1250, max: 2500 },
+    },
+  };
 
-
- 
   return (
     <div className="App">
       {/* <Nav /> */}
@@ -122,14 +169,25 @@ export default function App() {
       </div>
 
       <div className="content-wrapper">
-        <div className="cover-container" id="capture">
-          {formData.query && photo.id ? (
+        <div
+          className="cover-container"
+          id="capture"
+          style={{
+            width: `${width}px`,
+            height: `${height}px`,
+          }}
+        >
+          {formData.query && photo ? (
             <div>
-              {/* <a href={photo.user.links.html} target="_blank"> */}
-              <div className="img-wrapper">
-                <img className="img" src={photo.urls.regular} />
+              <div
+                className="img-wrapper"
+                style={{
+                  width: `${width}px`,
+                  height: `${height}px`,
+                }}
+              >
+                <img className="img" src={image} />
               </div>
-              {/* </a> */}
 
               <div className="cover-border">
                 {formData.displayInfo ? (
@@ -139,6 +197,7 @@ export default function App() {
                       color: formData.clrFont,
                       backgroundColor: formData.clrBg,
                       fontFamily: formData.font,
+                      opacity: opacity,
                     }}
                   >
                     <h4 className="name">{formData.name}</h4>
@@ -162,6 +221,7 @@ export default function App() {
             <></>
           )}
         </div>
+
         <div className="controls-banner">
           <form onSubmit={handleSubmit} className="controls">
             <div className="img-form">
@@ -172,10 +232,7 @@ export default function App() {
                   className="form-input"
                   type="file"
                   accept="image/png, image/jpeg"
-                  // placeholder="Website"
-                  onChange={handleChange}
-                  // name="site"
-                  // value={formData.site}
+                  onChange={handleUpload}
                 />
               </div>
               <div className="form-row">
@@ -202,7 +259,7 @@ export default function App() {
                   <option value="webp">.webp</option>
                 </select>
               </div>
-              <div className="caption">
+              {/* <div className="caption">
                 {formData.query && photo.id ? (
                   <p className="credits">
                     Photo by
@@ -213,9 +270,14 @@ export default function App() {
                 ) : (
                   <></>
                 )}
-              </div>
+              </div> */}
               <div className="btn-wrapper">
-                <button className="form-btn" onClick={saveImg}>
+                <button
+                  className="form-btn"
+                  onClick={() => {
+                    saveImg(formData.fileType);
+                  }}
+                >
                   Download
                 </button>
               </div>
@@ -293,7 +355,7 @@ export default function App() {
                   value={formData.query}
                 />
               </div>
-              <div className="form-row">
+              {/* <div className="form-row">
                 <p className="form-label">Width</p>
                 <input
                   className="form-input"
@@ -314,7 +376,24 @@ export default function App() {
                   name="height"
                   value={formData.height}
                 />
-              </div>
+              </div> */}
+
+              <SliderInput
+                className="input-slider"
+                value={width}
+                onChange={(e: any) => setWidth(e.target.value)}
+                min={400}
+                max={1600}
+                label="Width"
+              />
+              <SliderInput
+                className="input-slider"
+                value={height}
+                onChange={(e: any) => setHeight(e.target.value)}
+                min={150}
+                max={600}
+                label="Height"
+              />
 
               <div className="btn-wrapper">
                 <button className="form-btn" onClick={generatePhoto}>
@@ -395,6 +474,16 @@ export default function App() {
                   value={formData.clrBg}
                 />
               </div>
+
+              <SliderInput
+                className="input-slider"
+                value={(opacity * 100).toFixed(0)}
+                onChange={(e: any) => setOpacity(e.target.value / 100)}
+                min={0}
+                max={100}
+                step={1}
+                label="Opacity"
+              />
             </div>
           </form>
         </div>
@@ -405,7 +494,19 @@ export default function App() {
   );
 }
 
-
-
-
-
+function SliderInput(props: any) {
+  return (
+    <div className={props.className}>
+      <label>{props.label}</label>
+      <input
+        type="range"
+        min={props.min}
+        max={props.max}
+        step={props.step}
+        value={props.value}
+        onChange={props.onChange}
+      />
+      <label>{props.value}</label>
+    </div>
+  );
+}

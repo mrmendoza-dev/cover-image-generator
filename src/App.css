@@ -8,14 +8,8 @@
     --clr-hr: #333;
     --clr-body-bg: #1f233b;
     --clr-accent: #1e2135b9;
-
     --clr-frame-font: #ffffff;
     --clr-frame-bg: #000000d9;
-
-    --li-cover-width: 1075px;
-    --li-cover-height: 275px;
-    /* --li-aspect-ratio: 1.91 / 1; */
-    --cover-height: 275px;
 }
 
 * {
@@ -53,6 +47,7 @@ a {
     height: 100vh;
     position: relative;
     background: linear-gradient(130deg, rgba(44,50,79,1) 0%, rgba(35,41,66,1) 100%);
+    color-scheme: dark;
 
 }
 
@@ -97,15 +92,14 @@ a {
   position: relative;
   margin: 0 auto;
   margin-top: 2em;
-  background-size: cover;
-  height: var(--cover-height);
-  background-color: black;
+  /* background-size: cover; */
+  /* background-color: black; */
 }
+
 .cover-border {
   box-sizing: border-box;
   /* border-bottom: 1px solid #0f0; */
   width: 100%;
-  height: var(--cover-height);
   position: absolute;
   z-index: 100;
   top: 0;
@@ -114,20 +108,27 @@ a {
 }
 
 .img-wrapper {
-  overflow: auto; /* adds scrollbars */
-  overflow-x: hidden;
-  height: var(--cover-height);
-  width: var(--cover-width);
+  overflow: auto;
+
   background-color: black;
   position: relative;
   z-index: 10;
-  object-fit: cover;
+    scroll-behavior: smooth;
 }
 
 .img-wrapper > img {
-  height: 200%; /* probably looks neater if auto */
-  width: 200%; /* double width image to show only first quarter */
-  vertical-align: bottom; /* moves image to true text bottom */
+  object-fit: contain;
+  width: 100%;
+}
+
+
+.img-wrapper::-webkit-scrollbar {
+  width: 0em; 
+  background-color: transparent;
+}
+
+.img-wrapper::-webkit-scrollbar-thumb {
+  background-color: #000000; 
 }
 
 /* CONTROLS */
@@ -135,7 +136,6 @@ a {
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  /* flex-direction: column; */
   align-items: flex-start;
   gap: 2em;
   margin-top: 2em;
@@ -162,8 +162,7 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: var(--cover-height);
-
+  height: 275px;
   position: absolute;
   bottom: 0;
   top: 0;
@@ -179,7 +178,6 @@ a {
 .name {
   text-transform: uppercase;
   letter-spacing: 2px;
-  /* Change this font-size if your name needs more space*/
   font-size: 2.8rem;
   margin: 0;
 }
@@ -229,4 +227,12 @@ a {
   justify-content: flex-end;
   align-items: center;
   gap: 0.6em;
+}
+
+
+
+.input-slider {
+  display: flex;
+    flex-wrap: wrap;
+  gap: .6em;
 }
