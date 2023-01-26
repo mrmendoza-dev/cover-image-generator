@@ -6,3 +6,6 @@ Cover image generator modified from Scrimba example. Generate a cover image in a
 - Add your personal/work information (email, website, etc.)
 - Upload your own images or use prompts to search from [Unsplash](https://unsplash.com/)
 - Customize with controls for sizing and styling
+
+## Resources
+- [Unsplash API](https://unsplash.com/developers)
