@@ -16,7 +16,7 @@ export default function App() {
 
   let queries = ["tech", "neon", "cyber", "city"];
   function randomQuery(list: []) {
-    return Math.floor(Math.random() * list.length);
+      return queries[Math.floor(Math.random() * list.length)];
   }
 
   const [formData, setFormData] = useState({
@@ -37,6 +37,7 @@ export default function App() {
     clrBg: "#000000d9",
     clrFont: "#ffffff",
   });
+
 
   const fontFamilies = [
     "Arial",
@@ -161,6 +162,14 @@ export default function App() {
     },
   };
 
+  // width x height
+  const presetSizes = {
+    linkedin: [1128, 191],
+    facebook: [820, 360],
+    twitter: [1500, 500],
+    youtube: [1546, 423],
+  };
+
   return (
     <div className="App">
       {/* <Nav /> */}
@@ -169,6 +178,69 @@ export default function App() {
       </div>
 
       <div className="content-wrapper">
+        <div className="cover-header">
+          <div className="preset-tray">
+            <button
+              className="preset-btn"
+              onClick={() => {
+                setWidth(presetSizes.linkedin[0]);
+                setHeight(presetSizes.linkedin[1]);
+              }}
+            >
+              <i className="fa-brands fa-linkedin"></i>
+            </button>
+
+            <button
+              className="preset-btn"
+              onClick={() => {
+                setWidth(presetSizes.twitter[0]);
+                setHeight(presetSizes.twitter[1]);
+              }}
+            >
+              <i className="fa-brands fa-twitter"></i>
+            </button>
+            <button
+              className="preset-btn"
+              onClick={() => {
+                setWidth(presetSizes.facebook[0]);
+                setHeight(presetSizes.facebook[1]);
+              }}
+            >
+              <i className="fa-brands fa-facebook"></i>
+            </button>
+            <button
+              className="preset-btn"
+              onClick={() => {
+                setWidth(presetSizes.youtube[0]);
+                setHeight(presetSizes.youtube[1]);
+              }}
+            >
+              <i className="fa-brands fa-youtube"></i>
+            </button>
+          </div>
+
+          <div className="size-tray">
+            <SliderInput
+              className="input-slider"
+              value={width}
+              onChange={(e: any) => setWidth(e.target.value)}
+              min={400}
+              max={1600}
+              label="Width"
+            />
+            <SliderInput
+              className="input-slider"
+              value={height}
+              onChange={(e: any) => setHeight(e.target.value)}
+              min={150}
+              max={600}
+              label="Height"
+            />
+          </div>
+
+          <div></div>
+        </div>
+
         <div
           className="cover-container"
           id="capture"
@@ -198,6 +270,7 @@ export default function App() {
                       backgroundColor: formData.clrBg,
                       fontFamily: formData.font,
                       opacity: opacity,
+                      height: `${height}px`,
                     }}
                   >
                     <h4 className="name">{formData.name}</h4>
@@ -225,40 +298,37 @@ export default function App() {
         <div className="controls-banner">
           <form onSubmit={handleSubmit} className="controls">
             <div className="img-form">
-              <p className="control-header">File</p>
+              <p className="control-header">Image</p>
+              <div className="img-form">
+                <div className="form-row">
+                  <p className="form-label">Category</p>
+                  <input
+                    className="form-input"
+                    type="text"
+                    // placeholder=""
+                    onChange={handleChange}
+                    name="query"
+                    value={formData.query}
+                  />
+                </div>
+
+                <div className="btn-wrapper">
+                  <button className="form-btn" onClick={generatePhoto}>
+                    Generate
+                  </button>
+                </div>
+              </div>
+
               <div className="form-row">
                 <p className="form-label">Import Image</p>
                 <input
-                  className="form-input"
+                  // className="form-input"
                   type="file"
                   accept="image/png, image/jpeg"
                   onChange={handleUpload}
                 />
               </div>
-              <div className="form-row">
-                <p className="form-label">Display Info</p>
-                <input
-                  className="form-checkbox"
-                  type="checkbox"
-                  checked={formData.displayInfo}
-                  onChange={handleChange}
-                  name="displayInfo"
-                />
-              </div>
-              <div className="form-row">
-                <p className="form-label">File Type</p>
 
-                <select
-                  className="form-select"
-                  onChange={handleChange}
-                  name="fileType"
-                  value={formData.fileType}
-                >
-                  <option value="png">.png</option>
-                  <option value="jpg">.jpg</option>
-                  <option value="webp">.webp</option>
-                </select>
-              </div>
               {/* <div className="caption">
                 {formData.query && photo.id ? (
                   <p className="credits">
@@ -271,7 +341,22 @@ export default function App() {
                   <></>
                 )}
               </div> */}
-              <div className="btn-wrapper">
+
+              <div className="download-tray">
+                <div className="form-row">
+                  <p className="form-label">File Type</p>
+
+                  <select
+                    className="form-select"
+                    onChange={handleChange}
+                    name="fileType"
+                    value={formData.fileType}
+                  >
+                    <option value="png">.png</option>
+                    <option value="jpg">.jpg</option>
+                    <option value="webp">.webp</option>
+                  </select>
+                </div>
                 <button
                   className="form-btn"
                   onClick={() => {
@@ -285,6 +370,16 @@ export default function App() {
 
             <div className="info-form">
               <p className="control-header">Info</p>
+              <div className="form-row">
+                <p className="form-label">Display Info</p>
+                <input
+                  className="form-checkbox"
+                  type="checkbox"
+                  checked={formData.displayInfo}
+                  onChange={handleChange}
+                  name="displayInfo"
+                />
+              </div>
               <div className="form-row">
                 <p className="form-label">Name</p>
                 <input
@@ -339,66 +434,6 @@ export default function App() {
                   name="site"
                   value={formData.site}
                 />
-              </div>
-            </div>
-
-            <div className="img-form">
-              <p className="control-header">Generate</p>
-              <div className="form-row">
-                <p className="form-label">Category</p>
-                <input
-                  className="form-input"
-                  type="text"
-                  // placeholder=""
-                  onChange={handleChange}
-                  name="query"
-                  value={formData.query}
-                />
-              </div>
-              {/* <div className="form-row">
-                <p className="form-label">Width</p>
-                <input
-                  className="form-input"
-                  type="number"
-                  // placeholder="First Name"
-                  onChange={handleChange}
-                  name="width"
-                  value={formData.width}
-                />
-              </div>
-              <div className="form-row">
-                <p className="form-label">Height</p>
-                <input
-                  className="form-input"
-                  type="number"
-                  // placeholder="First Name"
-                  onChange={handleChange}
-                  name="height"
-                  value={formData.height}
-                />
-              </div> */}
-
-              <SliderInput
-                className="input-slider"
-                value={width}
-                onChange={(e: any) => setWidth(e.target.value)}
-                min={400}
-                max={1600}
-                label="Width"
-              />
-              <SliderInput
-                className="input-slider"
-                value={height}
-                onChange={(e: any) => setHeight(e.target.value)}
-                min={150}
-                max={600}
-                label="Height"
-              />
-
-              <div className="btn-wrapper">
-                <button className="form-btn" onClick={generatePhoto}>
-                  Generate
-                </button>
               </div>
             </div>
 
@@ -506,7 +541,13 @@ function SliderInput(props: any) {
         value={props.value}
         onChange={props.onChange}
       />
-      <label>{props.value}</label>
+      <input
+        type="number"
+        min={props.min}
+        max={props.max}
+        value={props.value}
+        onChange={props.onChange}
+      />
     </div>
   );
 }
